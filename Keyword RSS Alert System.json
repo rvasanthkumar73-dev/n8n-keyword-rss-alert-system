@@ -1,0 +1,145 @@
+{
+  "name": "Keyword RSS Alert System",
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "hours"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.3,
+      "position": [
+        -224,
+        -160
+      ],
+      "id": "50b97020-454b-49dd-a2d4-0c3b1b9a502f",
+      "name": "Schedule Trigger"
+    },
+    {
+      "parameters": {
+        "url": "https://feeds.bbci.co.uk/news/technology/rss.xml",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.rssFeedRead",
+      "typeVersion": 1.2,
+      "position": [
+        0,
+        -160
+      ],
+      "id": "9bc2ad76-eb5d-4481-a989-9fe68922eb41",
+      "name": "RSS Read"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "f3831821-986d-4b9b-9178-6ba3619ddd3b",
+              "leftValue": "={{ $json.title }}",
+              "rightValue": "algorithm",
+              "operator": {
+                "type": "string",
+                "operation": "contains"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        224,
+        -160
+      ],
+      "id": "fb56e1ac-4065-405f-b62b-742253f1dca7",
+      "name": "If"
+    },
+    {
+      "parameters": {
+        "fromEmail": "your\"From_email\"",
+        "toEmail": "your\"To_email\"",
+        "subject": "=RSS Alert: {{ $json.title }}",
+        "html": "=<!DOCTYPE html>\n<html>\n<head>\n  <meta charset=\"utf-8\">\n  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n</head>\n<body style=\"margin: 0; padding: 32px 16px; background-color: #ffffff; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; color: #1e293b;\">\n\n  <!-- Outer Card Container -->\n  <table width=\"100%\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\" style=\"max-width: 620px; margin: 0 auto; background-color: #ffffff; border-radius: 16px; border: 1px solid #e2e8f0; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05); overflow: hidden;\">\n    \n    <!-- Top Gradient Accent Strip -->\n    <tr>\n      <td height=\"6\" style=\"background: linear-gradient(90deg, #4f46e5 0%, #7c3aed 50%, #06b6d4 100%); line-height: 6px; font-size: 6px;\">&nbsp;</td>\n    </tr>\n\n    <!-- Header Section -->\n    <tr>\n      <td style=\"padding: 28px 28px 20px 28px;\">\n        <table width=\"100%\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\">\n          <tr>\n            <td align=\"left\">\n              <span style=\"display: inline-block; background-color: #f1f5f9; color: #4338ca; border: 1px solid #e0e7ff; padding: 6px 14px; border-radius: 9999px; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.8px;\">\n                ⚡ Keyword RSS Alert\n              </span>\n            </td>\n          </tr>\n          <tr>\n            <td style=\"padding-top: 14px;\">\n              <h1 style=\"margin: 0; font-size: 22px; font-weight: 800; line-height: 1.35; color: #0f172a;\">\n                {{ $json.title }}\n              </h1>\n            </td>\n          </tr>\n        </table>\n      </td>\n    </tr>\n\n    <!-- Metadata Badges -->\n    <tr>\n      <td style=\"padding: 0 28px 20px 28px;\">\n        <table border=\"0\" cellspacing=\"0\" cellpadding=\"0\">\n          <tr>\n            <td style=\"padding-right: 10px;\">\n              <span style=\"font-size: 12px; color: #475569; background-color: #f8fafc; border: 1px solid #e2e8f0; padding: 6px 12px; border-radius: 8px; display: inline-block; font-weight: 500;\">\n                📅 {{ $json.pubDate || 'Just now' }}\n              </span>\n            </td>\n            <td>\n              <span style=\"font-size: 12px; color: #0284c7; background-color: #f0f9ff; border: 1px solid #bae6fd; padding: 6px 12px; border-radius: 8px; display: inline-block; font-weight: 600;\">\n                📰 {{ $json.creator || 'Verified Feed' }}\n              </span>\n            </td>\n          </tr>\n        </table>\n      </td>\n    </tr>\n\n    <!-- Article Summary Card -->\n    <tr>\n      <td style=\"padding: 0 28px 28px 28px;\">\n        <div style=\"background-color: #f8fafc; border-left: 4px solid #4f46e5; border-radius: 8px; padding: 18px 20px;\">\n          <p style=\"margin: 0 0 6px 0; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.6px; color: #64748b;\">\n            Article Summary\n          </p>\n          <p style=\"margin: 0; font-size: 15px; line-height: 1.6; color: #334155;\">\n            {{ $json.contentSnippet || $json.content || 'Click the button below to read the complete article.' }}\n          </p>\n        </div>\n      </td>\n    </tr>\n\n    <!-- Action Button -->\n    <tr>\n      <td align=\"left\" style=\"padding: 0 28px 36px 28px;\">\n        <table border=\"0\" cellspacing=\"0\" cellpadding=\"0\">\n          <tr>\n            <td align=\"center\" style=\"border-radius: 10px; background: linear-gradient(135deg, #4f46e5 0%, #6366f1 100%);\">\n              <a href=\"{{ $json.link }}\" target=\"_blank\" style=\"display: inline-block; padding: 14px 28px; font-size: 14px; font-weight: 700; color: #ffffff; text-decoration: none; border-radius: 10px; letter-spacing: 0.2px;\">\n                Read Full Story &rarr;\n              </a>\n            </td>\n          </tr>\n        </table>\n      </td>\n    </tr>\n\n  </table>\n\n</body>\n</html>",
+        "options": {
+          "appendAttribution": false
+        }
+      },
+      "type": "n8n-nodes-base.emailSend",
+      "typeVersion": 2.1,
+      "position": [
+        480,
+        -176
+      ],
+      "id": "60131d79-a763-4bd0-942a-a3a079198622",
+      "name": "Send an Email",
+      "webhookId": "9155173a-baf8-4b0c-a529-6269a51f5326",
+      "credentials": {
+        "smtp": {
+          "id": "txVcqcR0xrldj6Vg",
+          "name": "SMTP account"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Schedule Trigger": {
+      "main": [
+        [
+          {
+            "node": "RSS Read",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "RSS Read": {
+      "main": [
+        [
+          {
+            "node": "If",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If": {
+      "main": [
+        [
+          {
+            "node": "Send an Email",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate"
+  },
+  "versionId": "546bdcce-7f26-4e62-ba81-4394265da1f4",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "c5838cc2570ff3959ae094f289e1b6a0d0e0b7496d6ecda447b8898fc080959e"
+  },
+  "id": "Ly5MeZnabb9niprf",
+  "tags": []
+}
