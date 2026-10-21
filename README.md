@@ -23,6 +23,7 @@ An automated workflow built in **n8n** that monitors RSS feeds, filters articles
 ## 📬 Sample Email Alert
 
 <img width="1111" height="546" alt="assignment_output_3" src="https://github.com/user-attachments/assets/b6ae9bc7-3308-4d84-8742-7e40b247d356" />
+
 ## ⚙️ How to Use
 
 1. Clone this repository.
