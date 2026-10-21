@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body style="margin: 0; padding: 32px 16px; background-color: #ffffff; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; color: #1e293b;">
+
+  <!-- Outer Card Container -->
+  <table width="100%" border="0" cellspacing="0" cellpadding="0" style="max-width: 620px; margin: 0 auto; background-color: #ffffff; border-radius: 16px; border: 1px solid #e2e8f0; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05); overflow: hidden;">
+    
+    <!-- Top Gradient Accent Strip -->
+    <tr>
+      <td height="6" style="background: linear-gradient(90deg, #4f46e5 0%, #7c3aed 50%, #06b6d4 100%); line-height: 6px; font-size: 6px;">&nbsp;</td>
+    </tr>
+
+    <!-- Header Section -->
+    <tr>
+      <td style="padding: 28px 28px 20px 28px;">
+        <table width="100%" border="0" cellspacing="0" cellpadding="0">
+          <tr>
+            <td align="left">
+              <span style="display: inline-block; background-color: #f1f5f9; color: #4338ca; border: 1px solid #e0e7ff; padding: 6px 14px; border-radius: 9999px; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.8px;">
+                ⚡ Keyword RSS Alert
+              </span>
+            </td>
+          </tr>
+          <tr>
+            <td style="padding-top: 14px;">
+              <h1 style="margin: 0; font-size: 22px; font-weight: 800; line-height: 1.35; color: #0f172a;">
+                {{ $json.title }}
+              </h1>
+            </td>
+          </tr>
+        </table>
+      </td>
+    </tr>
+
+    <!-- Metadata Badges -->
+    <tr>
+      <td style="padding: 0 28px 20px 28px;">
+        <table border="0" cellspacing="0" cellpadding="0">
+          <tr>
+            <td style="padding-right: 10px;">
+              <span style="font-size: 12px; color: #475569; background-color: #f8fafc; border: 1px solid #e2e8f0; padding: 6px 12px; border-radius: 8px; display: inline-block; font-weight: 500;">
+                📅 {{ $json.pubDate || 'Just now' }}
+              </span>
+            </td>
+            <td>
+              <span style="font-size: 12px; color: #0284c7; background-color: #f0f9ff; border: 1px solid #bae6fd; padding: 6px 12px; border-radius: 8px; display: inline-block; font-weight: 600;">
+                📰 {{ $json.creator || 'Verified Feed' }}
+              </span>
+            </td>
+          </tr>
+        </table>
+      </td>
+    </tr>
+
+    <!-- Article Summary Card -->
+    <tr>
+      <td style="padding: 0 28px 28px 28px;">
+        <div style="background-color: #f8fafc; border-left: 4px solid #4f46e5; border-radius: 8px; padding: 18px 20px;">
+          <p style="margin: 0 0 6px 0; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.6px; color: #64748b;">
+            Article Summary
+          </p>
+          <p style="margin: 0; font-size: 15px; line-height: 1.6; color: #334155;">
+            {{ $json.contentSnippet || $json.content || 'Click the button below to read the complete article.' }}
+          </p>
+        </div>
+      </td>
+    </tr>
+
+    <!-- Action Button -->
+    <tr>
+      <td align="left" style="padding: 0 28px 36px 28px;">
+        <table border="0" cellspacing="0" cellpadding="0">
+          <tr>
+            <td align="center" style="border-radius: 10px; background: linear-gradient(135deg, #4f46e5 0%, #6366f1 100%);">
+              <a href="{{ $json.link }}" target="_blank" style="display: inline-block; padding: 14px 28px; font-size: 14px; font-weight: 700; color: #ffffff; text-decoration: none; border-radius: 10px; letter-spacing: 0.2px;">
+                Read Full Story &rarr;
+              </a>
+            </td>
+          </tr>
+        </table>
+      </td>
+    </tr>
+
+  </table>
+
+</body>
+</html>
